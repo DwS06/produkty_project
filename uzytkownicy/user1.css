@@ -1,0 +1,44 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    
+}
+main
+{
+    display: flex;
+    height: 100%;
+}
+#left{
+    background-color: lightgreen;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#right{
+    background-color: greenyellow;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+table {
+    border-collapse: collapse;
+}
+tr, th, td {
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    padding: 5px;
+}
+#polacz_button {
+    align-self: flex-start;
+}
+header {
+    background-color: green;
+    padding: 10px;
+    text-align: right;
+    
+    font-weight: bold;
+}
