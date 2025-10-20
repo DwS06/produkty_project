@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="user1.css">
+    <link rel="stylesheet" href="user2.css">
     <title>User 2</title>
 </head>
 <body>
@@ -39,8 +39,6 @@
                     echo "Nieprawidłowe dane wejściowe.";
                     exit;
                 } else {
-                    $cenamin = (float)$cenamin;
-                    $cenamax = (float)$cenamax;
                     $sql = "SELECT item_id, description, ROUND(sell_price, 0) as sell_price, ROUND(cost_price, 0) as cost_price FROM item WHERE sell_price BETWEEN $cenamin AND $cenamax ORDER BY sell_price";
                     $result = mysqli_query($conn, $sql);
                 }
@@ -75,15 +73,59 @@
                 } else {
                 echo "Brak produktów do wyświetlenia.";
                 }
-                mysqli_close($conn);
+                
+                
+
                 ?>
                 </table>
                 
                 <button type="submit" formaction="edit.php">Edytuj</button>
                 <button type="submit" onclick="return confirm('Na pewno chcesz usunąć zaznaczone rekordy?');">Usuń</button>
                 </form>
-            
+                <?php
+                if (isset($_POST['selected_items'])) {
+                    $selected = $_POST['selected_items']; // tablica item_id
 
+                    // Zamiana tablicy na ciąg znaków
+                    $placeholder = implode(', ', array_map('intval', $selected));
+
+                    // Teraz możesz użyć np.:
+                    $sql = "DELETE FROM item WHERE item_id IN ($placeholder)";
+                    mysqli_query($conn, $sql);
+                    header("Location: ".$_SERVER['PHP_SELF']);
+                    exit;
+
+                }
+
+                ?>
+            
+                <div id="add_block">
+                    <form action="" method="post" id="add_form">
+                        <div class="add_element">
+                            <input type="text" name="description" placeholder="Description" class="add_item" required>
+                        </div>
+                        <div class="add_element">
+                            <input type="number" name="sell_price" step="0.01" placeholder="Sell Price" class="add_item" required>
+                        </div>
+                        <div class="add_element">
+                            <input type="number" name="cost_price" step="0.01" placeholder="Cost Price" class="add_item" required>
+                        </div>
+                        <div class="add_element"></div>
+                        <button type="submit" class="add_item">Dodaj</button>
+                    </form>
+                    <?php
+                        if (isset($_POST['description'], $_POST['sell_price'], $_POST['cost_price'])) {
+                            $description = $_POST['description'];
+                            $sell_price = $_POST['sell_price'];
+                            $cost_price = $_POST['cost_price'];
+                            $sql = "INSERT INTO item (description, sell_price, cost_price) values('$description', $sell_price, $cost_price)";
+                            mysqli_query($conn, $sql);
+                            header("Location: ".$_SERVER['PHP_SELF']);
+                            exit;
+                        }
+                        mysqli_close($conn);
+                    ?>
+                </div>
             
       
         </div>

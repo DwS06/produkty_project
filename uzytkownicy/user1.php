@@ -25,10 +25,6 @@
         <div id="right">
             <?php
             $conn = mysqli_connect('localhost', 'user1', 'user1', 'produkty');
-            if (!$conn) {
-                die("Connection failed: " . mysqli_connect_error());
-            }
-
             if (isset($_POST['cenamin'], $_POST['cenamax']) && $_POST['cenamin'] !== '' && $_POST['cenamax'] !== '') {
                 $cenamin = $_POST['cenamin'];
                 $cenamax = $_POST['cenamax'];
@@ -37,19 +33,8 @@
                     echo "Nieprawidłowe dane wejściowe.";
                     exit;
                 } else {
-                    $cenamin = (float)$cenamin;
-                    $cenamax = (float)$cenamax;
-                    $sql = "SELECT item_id, description, ROUND(sell_price, 0) as sell_price FROM item WHERE sell_price BETWEEN ? AND ? ORDER BY sell_price";
-                    $stmt = mysqli_prepare($conn, $sql);
-                    if ($stmt) {
-                        mysqli_stmt_bind_param($stmt, "dd", $cenamin, $cenamax);
-                        mysqli_stmt_execute($stmt);
-                        $result = mysqli_stmt_get_result($stmt);
-                        mysqli_stmt_close($stmt);
-                    } else {
-                        echo "Błąd przygotowania zapytania.";
-                        exit;
-                    }
+                    $sql = "SELECT item_id, description, ROUND(sell_price, 0) as sell_price FROM item WHERE sell_price BETWEEN $cenamin AND $cenamax ORDER BY sell_price";
+                    $result = mysqli_query($conn, $sql);
                 }
             } else {
                 $sql = "SELECT item_id, description, ROUND(sell_price, 0) as sell_price FROM item ORDER BY sell_price";

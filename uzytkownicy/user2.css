@@ -20,11 +20,14 @@ main
     background-color: greenyellow;
     width: 50%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 table {
     border-collapse: collapse;
+    /* background-color: rgba(11, 6, 8, 0.5); */
+    width: 40vw;
 }
 tr, th, td {
     border-width: 2px;
@@ -41,4 +44,27 @@ header {
     text-align: right;
     
     font-weight: bold;
+}
+#add_block{
+    display: flex;
+    flex-direction: row;
+    width: 40vw;
+    
+}
+.add_element{
+    
+    
+}
+#add_form{
+    display: flex;
+    flex-direction: row;
+    width: inherit;
+    justify-content: space-between;
+    
+}
+.add_item{
+    background-color: darkgreen;
+    border: 1px solid black;
+    width: 10vw;
+    
 }
