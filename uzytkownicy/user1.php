@@ -15,9 +15,9 @@
         <div id="left">
             <form action="" method="post">
                 <label for="cena">Cena:</label>
-                <input type="number" name="cenamin">
+                <input type="number" name="cenamin" min="0" step="1">
                 -
-                <input type="number" name="cenamax">
+                <input type="number" name="cenamax" min="0" step="1">
                 <button type="submit">Szukaj</button>
             </form>
         </div>
@@ -34,10 +34,12 @@
                     exit;
                 } else {
                     $sql = "SELECT item_id, description, ROUND(sell_price, 0) as sell_price FROM item WHERE sell_price BETWEEN $cenamin AND $cenamax ORDER BY sell_price";
+                    $sql2 = "SELECT count(*) as liczba FROM item WHERE sell_price BETWEEN $cenamin AND $cenamax ORDER BY sell_price";
                     $result = mysqli_query($conn, $sql);
                 }
             } else {
                 $sql = "SELECT item_id, description, ROUND(sell_price, 0) as sell_price FROM item ORDER BY sell_price";
+                $sql2 = "SELECT count(*) as liczba FROM item ORDER BY sell_price";
                 $result = mysqli_query($conn, $sql);
             }
 
@@ -52,6 +54,10 @@
                     echo "</tr>";
                 }
                 echo "</table>";
+                // $sql = "select count(*) as liczba from item"; 
+                $result = mysqli_query($conn, $sql2);
+                $row = mysqli_fetch_array($result);
+                echo "<p>Liczba produktów: $row[liczba]</p>";
             } else {
                 echo "Brak produktów do wyświetlenia.";
             }
