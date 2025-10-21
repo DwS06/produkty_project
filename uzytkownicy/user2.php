@@ -16,9 +16,9 @@
         <div id="left">
             <form action="" method="post">
                 <label for="cena">Cena:</label>
-                <input type="number" name="cenamin">
+                <input type="number" name="cenamin" min="0" step="1">
                 -
-                <input type="number" name="cenamax">
+                <input type="number" name="cenamax" min="0" step="1">
                 <button type="submit">Szukaj</button>
             </form>
         </div>
@@ -78,10 +78,10 @@
                 $result = mysqli_query($conn, $sql);
                 $row = mysqli_fetch_array($result);
                 echo "<p>Liczba produktów: $row[liczba]</p>";
-                $sql = "select count(*) as liczba from item"; 
+                $sql = "select description from item order by item_id desc limit 1"; 
                 $result = mysqli_query($conn, $sql);
                 $row = mysqli_fetch_array($result);
-                echo "<p>Liczba produktów: $row[liczba]</p>";
+                echo "<p>Ostatni dodany produkt: $row[description]</p>";
                 ?>
                 </table>
                 
@@ -120,8 +120,8 @@
                             $description = $_POST['description'];
                             $sell_price = $_POST['sell_price'];
                             $cost_price = $_POST['cost_price'];
-                            $sql = "INSERT INTO item ('description', 'sell_price', 'cost_price') values('$description', $sell_price, $cost_price)";
-                            mysqli_query($conn, $sql);
+                            $sql = "INSERT INTO item (description, sell_price, cost_price) VALUES ('$description', $sell_price, $cost_price)";
+
                             header("Location: ".$_SERVER['PHP_SELF']);
                             exit;
                         }

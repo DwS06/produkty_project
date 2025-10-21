@@ -32,13 +32,18 @@ tr, th, td {
     border-color: black;
     padding: 5px;
 }
-#polacz_button {
-    align-self: flex-start;
-}
+
 header {
     background-color: green;
     padding: 10px;
     text-align: right;
     
     font-weight: bold;
+}
+input, button {
+  background-color: darkgreen;
+  border: 1px solid black;
+  width: 10vw;
+  color: white;
+  
 }

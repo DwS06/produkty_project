@@ -15,9 +15,9 @@
         <div id="left">
             <form action="" method="post">
                 <label for="cena">Cena:</label>
-                <input type="number" name="cenamin">
+                <input type="number" name="cenamin" min="0" step="1">
                 -
-                <input type="number" name="cenamax">
+                <input type="number" name="cenamax" min="0" step="1">
                 <button type="submit">Szukaj</button>
             </form>
         </div>
