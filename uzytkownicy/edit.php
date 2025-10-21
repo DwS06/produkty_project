@@ -16,7 +16,6 @@
 
           
             if (isset($_POST['description'], $_POST['sell_price'], $_POST['cost_price'], $_POST['item_id'])) {
-                echo "ssss";
 
                 $id = intval($_POST['item_id']);
                 $desc = mysqli_real_escape_string($conn, $_POST['description']);
@@ -31,22 +30,32 @@
             }
 
             if (isset($_POST['selected_items'])) {
-                $id = intval($_POST['selected_items'][0]);
-                $result = mysqli_query($conn, "SELECT * FROM item WHERE item_id = $id");
-                $row = mysqli_fetch_assoc($result);
+                if(sizeof($_POST['selected_items']) == 1)
+                {
+                    $id = intval($_POST['selected_items'][0]);
+                    $result = mysqli_query($conn, "SELECT * FROM item WHERE item_id = $id");
+                    $row = mysqli_fetch_assoc($result);
 
-                echo "<form method='POST'>";
-                echo "<input type='hidden' name='item_id' value='$id'>";
-                echo "<input type='text' name='description' class='form_edit' value='" . htmlspecialchars($row['description']) . "'>";
-                echo "<input type='number' name='sell_price' class='form_edit' value='" . htmlspecialchars($row['sell_price']) . "'>";
-                echo "<input type='number' name='cost_price' class='form_edit' value='" . htmlspecialchars($row['cost_price']) . "'>";
-                echo "<button type='submit' class='form_edit'>Zapisz</button>";
-                echo "</form>";
+                    echo "<form method='POST' action=''>";
+                    echo "<input type='hidden' name='item_id' value='$id'>";
+                    echo "<input type='text' name='description' min='0' step='0.01' class='form_edit' value='" . htmlspecialchars($row['description']) . "'>";
+                    echo "<input type='number' name='sell_price' min='0' step='0.01' class='form_edit' value='" . htmlspecialchars($row['sell_price']) . "'>";
+                    echo "<input type='number' name='cost_price' min='0' step='0.01' class='form_edit' value='" . htmlspecialchars($row['cost_price']) . "'>";
+                    echo "<button type='submit' class='form_edit'>Zapisz</button>";
+                    echo "</form>";
+                }else{
+                    echo "Zaznacz tylko jeden produkt.";
+                    echo '<a href="user2.php"><button>Okej</button></a>';
+                    exit;
+
+                }
+            }else{
+                echo "Nie zaznaczono produktu.";
+                echo '<a href="user2.php"><button>Okej</button></a>';
+                exit;
             }
         
-                    echo '<form>';
-                    echo '<button type="submit" name="anuluj">Anuluj</button>';
-                    echo '</form>';
+                echo '<a href="user2.php"><button>Anuluj</button></a>';
                     
         ?>
 
