@@ -74,8 +74,14 @@
                 echo "Brak produktów do wyświetlenia.";
                 }
                 
-                
-
+                $sql = "select count(*) as liczba from item"; 
+                $result = mysqli_query($conn, $sql);
+                $row = mysqli_fetch_array($result);
+                echo "<p>Liczba produktów: $row[liczba]</p>";
+                $sql = "select count(*) as liczba from item"; 
+                $result = mysqli_query($conn, $sql);
+                $row = mysqli_fetch_array($result);
+                echo "<p>Liczba produktów: $row[liczba]</p>";
                 ?>
                 </table>
                 
@@ -84,12 +90,8 @@
                 </form>
                 <?php
                 if (isset($_POST['selected_items'])) {
-                    $selected = $_POST['selected_items']; // tablica item_id
-
-                    // Zamiana tablicy na ciąg znaków
+                    $selected = $_POST['selected_items'];
                     $placeholder = implode(', ', array_map('intval', $selected));
-
-                    // Teraz możesz użyć np.:
                     $sql = "DELETE FROM item WHERE item_id IN ($placeholder)";
                     mysqli_query($conn, $sql);
                     header("Location: ".$_SERVER['PHP_SELF']);
@@ -105,10 +107,10 @@
                             <input type="text" name="description" placeholder="Description" class="add_item" required>
                         </div>
                         <div class="add_element">
-                            <input type="number" name="sell_price" step="0.01" placeholder="Sell Price" class="add_item" required>
+                            <input type="number" name="sell_price" step="0.01" min="0" placeholder="Sell Price" class="add_item" required>
                         </div>
                         <div class="add_element">
-                            <input type="number" name="cost_price" step="0.01" placeholder="Cost Price" class="add_item" required>
+                            <input type="number" name="cost_price" step="0.01" min="0" placeholder="Cost Price" class="add_item" required>
                         </div>
                         <div class="add_element"></div>
                         <button type="submit" class="add_item">Dodaj</button>
@@ -118,7 +120,7 @@
                             $description = $_POST['description'];
                             $sell_price = $_POST['sell_price'];
                             $cost_price = $_POST['cost_price'];
-                            $sql = "INSERT INTO item (description, sell_price, cost_price) values('$description', $sell_price, $cost_price)";
+                            $sql = "INSERT INTO item ('description', 'sell_price', 'cost_price') values('$description', $sell_price, $cost_price)";
                             mysqli_query($conn, $sql);
                             header("Location: ".$_SERVER['PHP_SELF']);
                             exit;
